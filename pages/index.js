@@ -1,8 +1,32 @@
 export default function Home(){
+    const cardStyle = {
+        backgroundColor: '#ffe4e1',
+        borderRadius: '15px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        padding: '20px',
+        maxWidth: '300px',
+        textAlign: 'center',
+    };
+    
+    const titleStyle = {
+        color: '#ff6f61',
+        fontSize: '24px',
+        marginBottom: '5px',
+    };
+    
+    const emojiStyle = {
+        fontSize: '60px',
+        color: '#ff6f61',
+    };
     return (
-        <div style="background-color: #ffe4e1; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); padding: 20px; max-width: 300px; text-align: center;">
-            <h1 style="color: #ff6f61; font-size: 24px; margin-bottom: 10px;">Te amo meu xuxu ❤️</h1>
-            <p style="font-size: 40px; color: #ff6f61;">❤️</p>
+        <div style={cardStyle}>
+          <h1 style={titleStyle}>Te amo meu xuxuzinho</h1>
+          <p style={emojiStyle}>❤️</p>
         </div>
-    )
+    );
 }
+
+
+
+  
+    
