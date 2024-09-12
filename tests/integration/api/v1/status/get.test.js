@@ -3,17 +3,20 @@ test("API EndPoint | GET | ", async () => {
   expect(response.status).toBe(200);
 
   const responseBody = await response.json();
-  expect(responseBody.updated_at).toBeDefined();
+  expect(responseBody).toBeDefined();
   console.log(responseBody);
 
   const parsedUpdatedAt = new Date(responseBody.updated_at).toISOString();
   expect(responseBody.updated_at).toEqual(parsedUpdatedAt);
 
-  const pgVersion = responseBody.pg_version;
-  expect(typeof pgVersion).toBe("string");
-  pgVersionIsEmpty = pgVersion.length > 0 ? false : true;
-  expect(pgVersionIsEmpty).toBe(false);
+  const databaseStatus = responseBody.dependencies.database;
+  expect(databaseStatus).toBeDefined();
 
-  const pgMaxConnections = responseBody.pg_max_connections;
-  expect(typeof pgMaxConnections).toBe("number");
+  expect(databaseStatus.version).toBe("16.4");
+
+  expect(typeof databaseStatus.max_connections).toBe("number");
+  expect(databaseStatus.max_connections).toBeGreaterThan(0);
+
+  expect(typeof databaseStatus.current_connections).toBe("number");
+  expect(databaseStatus.current_connections).toBeGreaterThan(-1);
 });
