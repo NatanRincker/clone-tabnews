@@ -1,23 +1,20 @@
-import database from "infra/database";
 import orchestrator from "tests/orchestrator";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
-  await database.query("drop schema public cascade; create schema public;");
+  await orchestrator.clearDatabase();
 });
 
-test("GET to /api/v1/migrations should return 200", async () => {
-  console.log(`## NODE_ENV: ${process.env.NODE_ENV}`);
+describe("GET to /api/v1/migrations", () => {
+  describe("Anonymous User Running pending migrations", () => {
+    test("should return 200", async () => {
+      const response = await fetch("http://localhost:3000/api/v1/migrations");
+      expect(response.status).toBe(200);
 
-  const queryResult = await database.query("SELECT 1 + 1 as sum;");
-  expect(queryResult.rows[0].sum).toBe(2);
+      const responseBody = await response.json();
 
-  const response = await fetch("http://localhost:3000/api/v1/migrations");
-  expect(response.status).toBe(200);
-
-  const responseBody = await response.json();
-  console.log(responseBody);
-
-  expect(Array.isArray(responseBody)).toBe(true);
-  expect(responseBody.length).toBeGreaterThan(0);
+      expect(Array.isArray(responseBody)).toBe(true);
+      expect(responseBody.length).toBeGreaterThan(0);
+    });
+  });
 });
